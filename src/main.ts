@@ -1,11 +1,7 @@
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
-
 import { createApp } from 'vue'
-import { createVuetify } from 'vuetify'
 import webFontLoader from 'webfontloader'
 import App from './App.vue'
-
+import './index.css'
 
 webFontLoader.load({
   google: {
@@ -13,4 +9,4 @@ webFontLoader.load({
   }
 })
 
-createApp(App).use(createVuetify()).mount('#app')
+createApp(App).mount('#app')
