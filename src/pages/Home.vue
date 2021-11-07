@@ -1,11 +1,10 @@
 <template lang='pug'>
-Main
+Graph
 </template>
 
 <script setup>
-import Main from '../components/Main.vue'
-
-// </script> // hm this is interesting
+import Graph from '../components/Graph.vue'
+</script>
 
 <style scoped>
 h1,

@@ -1,6 +1,9 @@
 <template lang="pug">
-div
-  router-link(to='/') Home | #[router-link(to='/about') About]
+//- TODO color doens't works
+nav.font-sans.flex.py-4.px-6.shadow(class='sm:flex-row sm:text-left sm:justify-between sm:items-baseline')
+  .mb-2(class='sm:mb-0'): router-link.text-2xl.text-grey-darkest(to='/' class='hover:text-blue-dark') Home
+  div: router-link.text-lg.no-underline.text-grey-darkest.ml-2(to='/about' class='hover:text-blue-dark') About
+.m-5
   router-view(v-slot='{ Component }'): suspense: component(:is='Component')
 </template>
 
@@ -22,6 +25,5 @@ div
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
 }
 </style>

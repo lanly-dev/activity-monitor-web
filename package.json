@@ -2,11 +2,12 @@
   "name": "vite-project",
   "version": "0.0.0",
   "scripts": {
-    "dev": "vite",
+    "dev": "ts-node server.ts",
     "build": "vue-tsc --noEmit && vite build",
     "serve": "vite preview"
   },
   "dependencies": {
+    "d3": "^7.1.1",
     "fastify": "^3.23.0",
     "fastify-compress": "^3.6.1",
     "fastify-express": "^0.3.3",
@@ -15,6 +16,7 @@
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {
+    "@types/d3": "^7.1.0",
     "@types/node": "^16.11.6",
     "@types/webfontloader": "^1.6.33",
     "@vitejs/plugin-vue": "^1.9.4",
