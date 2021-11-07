@@ -1,10 +1,10 @@
-import Fastify, { FastifyInstance, RouteShorthandOptions } from 'fastify'
+import { createServer, ViteDevServer } from 'vite'
+import Fastify, { FastifyInstance} from 'fastify'
 import fastifyExpress from 'fastify-express'
 import fCompress from 'fastify-compress'
+import fs from 'fs'
 import path from 'path'
-import { createServer, ViteDevServer} from 'vite'
 
-const fs = require('fs')
 const server: FastifyInstance = Fastify({})
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
 
@@ -15,6 +15,7 @@ async function startServer(root = process.cwd(), isProd = process.env.NODE_ENV =
   await server.register(fastifyExpress)
 
   let viteServer: ViteDevServer
+
   if (!isProd) {
     viteServer = await createServer({
       root,
@@ -29,14 +30,13 @@ async function startServer(root = process.cwd(), isProd = process.env.NODE_ENV =
         }
       }
     })
-    // use vite's connect instance as middleware
-    //@ts-ignore
-    server.use(viteServer.middlewares)
+    // @ts-ignore
+    server.use(viteServer.middlewares) // use vite's connect instance as middleware
   } else {
     // @ts-ignore
-    sever.register(fCompress)
+    // server.register(fCompress)
     // @ts-ignore
-    // sever.use(
+    // server.use(
     //   // @ts-ignore
     //   require('serve-static')(resolve('dist/client'), {
     //     index: false
@@ -81,10 +81,13 @@ async function startServer(root = process.cwd(), isProd = process.env.NODE_ENV =
 
   try {
     await server.listen(3000)
-
     const address = server.server.address()
-    const port = typeof address === 'string' ? address : address?.port
-    console.log(`App listen at ${address}:${port}`)
+    if (typeof address === 'string') console.log(`The address: ${address}`)
+    else {
+      //@ts-ignore
+      const { address: addr, family, port } = address
+      console.log(`App listen at ${addr}:${port} - ${family}`)
+    }
   } catch (err) {
     server.log.error(err)
     process.exit(1)
