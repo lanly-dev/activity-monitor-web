@@ -1,5 +1,5 @@
 import { createServer, ViteDevServer } from 'vite'
-import Fastify, { FastifyInstance} from 'fastify'
+import Fastify, { FastifyInstance } from 'fastify'
 import fastifyExpress from 'fastify-express'
 import fCompress from 'fastify-compress'
 import fs from 'fs'
@@ -9,8 +9,7 @@ const server: FastifyInstance = Fastify({})
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
 
 async function startServer(root = process.cwd(), isProd = process.env.NODE_ENV === 'production') {
-  //@ts-ignore
-  const resolve = (p) => path.resolve(__dirname, p)
+  const resolve = (p: string) => path.resolve(__dirname, p)
   const manifest = isProd ? require('./dist/client/ssr-manifest.json') : {}
   await server.register(fastifyExpress)
 
@@ -30,8 +29,8 @@ async function startServer(root = process.cwd(), isProd = process.env.NODE_ENV =
         }
       }
     })
-    // @ts-ignore
-    server.use(viteServer.middlewares) // use vite's connect instance as middleware
+    // use vite's connect instance as middleware
+    server.use(viteServer.middlewares)
   } else {
     // @ts-ignore
     // server.register(fCompress)
@@ -43,51 +42,38 @@ async function startServer(root = process.cwd(), isProd = process.env.NODE_ENV =
     //   })
     // )
   }
-
-  // @ts-ignore
+  //@ts-ignore
   server.use('*', async (req, res) => {
     try {
       const url = req.originalUrl
       let template, render
       if (!isProd) {
         // always read fresh template in dev
-        // @ts-ignore
         template = fs.readFileSync(resolve('index.html'), 'utf-8')
-        // @ts-ignore
         template = await viteServer.transformIndexHtml(url, template)
-        // @ts-ignore
         render = (await viteServer.ssrLoadModule('/src/entry-server.ts')).render
       } else {
-        // @ts-ignore
-        template = indexProd
-        // @ts-ignore
+        template = fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
         render = require('./dist/server/entry-server.ts').render
       }
-      // @ts-ignore
       const [appHtml, preloadLinks] = await render(url, manifest, __dirname)
 
       const html = template.replace(`<!--preload-links-->`, preloadLinks).replace(`<!--app-html-->`, appHtml)
 
       res.status(200).set({ 'Content-Type': 'text/html' }).end(html)
-    } catch (e) {
+    } catch (err) {
       // @ts-ignore
-      viteServer && viteServer.ssrFixStacktrace(e)
+      viteServer && viteServer.ssrFixStacktrace(err)
       // @ts-ignore
-      console.log(e.stack)
+      console.log(err.stack)
       // @ts-ignore
-      res.status(500).end(e.stack)
+      res.status(500).end(err.stack)
     }
   })
 
   try {
-    await server.listen(3000)
-    const address = server.server.address()
-    if (typeof address === 'string') console.log(`The address: ${address}`)
-    else {
-      //@ts-ignore
-      const { address: addr, family, port } = address
-      console.log(`App listen at ${addr}:${port} - ${family}`)
-    }
+    const address = await server.listen(3000)
+    console.log(`App is listening at ${address}`)
   } catch (err) {
     server.log.error(err)
     process.exit(1)
