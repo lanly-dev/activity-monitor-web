@@ -11,7 +11,7 @@
     "esModuleInterop": true,
     "lib": ["esnext", "dom"]
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "include": ["client/**/*.ts", "client/**/*.d.ts", "client/**/*.tsx", "client/**/*.vue"],
   "ts-node": {
     "compilerOptions": {
         "module": "commonjs",

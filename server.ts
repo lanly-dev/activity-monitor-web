@@ -51,7 +51,7 @@ async function startServer(root = process.cwd(), isProd = process.env.NODE_ENV =
         // always read fresh template in dev
         template = fs.readFileSync(resolve('index.html'), 'utf-8')
         template = await viteServer.transformIndexHtml(url, template)
-        render = (await viteServer.ssrLoadModule('/src/entry-server.ts')).render
+        render = (await viteServer.ssrLoadModule('/client/entry-server.ts')).render
       } else {
         template = fs.readFileSync(resolve('dist/client/index.html'), 'utf-8')
         render = require('./dist/server/entry-server.ts').render
