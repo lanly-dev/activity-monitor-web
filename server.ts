@@ -5,6 +5,8 @@ import fCompress from 'fastify-compress'
 import fs from 'fs'
 import path from 'path'
 
+import addRoute from  './app'
+
 const server: FastifyInstance = Fastify({})
 const isTest = process.env.NODE_ENV === 'test' || !!process.env.VITE_TEST_BUILD
 
@@ -42,10 +44,12 @@ async function startServer(root = process.cwd(), isProd = process.env.NODE_ENV =
     //   })
     // )
   }
+
   //@ts-ignore
-  server.use('*', async (req, res) => {
+  server.use('*', async (req, res, next) => {
     try {
       const url = req.originalUrl
+      if (url.includes('/api/')) return next()
       let template, render
       if (!isProd) {
         // always read fresh template in dev
@@ -72,7 +76,8 @@ async function startServer(root = process.cwd(), isProd = process.env.NODE_ENV =
   })
 
   try {
-    const address = await server.listen(3000)
+    const address = await addRoute(server).listen(3000)
+    console.log(server.printRoutes())
     console.log(`App is listening at ${address}`)
   } catch (err) {
     server.log.error(err)

@@ -1,6 +1,5 @@
 import { createApp } from './main'
 import { renderToString } from 'vue/server-renderer'
-import path from 'path'
 
 //@ts-ignore
 export async function render(url, manifest, rootDir) {

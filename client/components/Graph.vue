@@ -3,9 +3,19 @@ svg.mx-auto(ref='graph')
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
+import { onBeforeMount, onMounted, ref } from 'vue'
 import * as d3 from 'd3'
 const graph = ref()
+
+onBeforeMount(async () => {
+  try {
+    const data = await fetch('/api/data').then((s) => s.text())
+    console.log(data)
+  } catch (error) {
+    console.log(error)
+  }
+})
+
 onMounted(() => {
 
   console.log(graph)

@@ -12,4 +12,6 @@ Since TypeScript cannot handle type information for `.vue` imports, they are shi
 
 ## Ref
 https://github.com/vitejs/vite/tree/main/packages/playground/ssr-vue \
+https://github.com/vuejs/vue-hackernews-2.0 \
+https://www.fastify.io/docs/latest/Routes/#route-prefixing \
 https://dev.to/itsrennyman/how-i-structure-my-fastify-application-1j93
