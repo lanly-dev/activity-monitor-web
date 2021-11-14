@@ -20,10 +20,10 @@ nav.font-sans.flex.py-4.px-6.shadow(class='sm:flex-row sm:text-left sm:justify-b
   font-family: 'Inter';
 }
 #app {
-  font-family: Raleway, Avenir, Helvetica, Arial, sans-serif;
+  font-family: Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: white;
 }
 </style>
